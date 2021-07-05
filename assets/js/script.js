@@ -38,7 +38,7 @@ function displayCount(){
     displayTimer.textContent = timer;
 }
 
-
+//commet
 //create questions
 
 //logic for score

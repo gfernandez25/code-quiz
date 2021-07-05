@@ -29,14 +29,34 @@
 .main{
     background-color: red;
     height: 500px;
-    margin: 0;
     padding: 100px;
-}
-
-.main-questions{
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+}
+
+.main-header{
+    padding-bottom: 20px;
+    font-size: 1.8em;
+}
+.main-instructions{
+    font-size: 1.2em;
 
 }
+.btn{
+    background-color: #fce138;
+    padding: 20px;
+}
+.btn-start-quiz{
+    background-color: rebeccapurple;
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+    height: 2em;
+    border-radius: 10px;
+    cursor:pointer;
+    padding: 10px 20px;
+}
+
 .footer{
     background-color: green;
     height: 100%;
