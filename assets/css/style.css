@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+
+.header{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #3a81fc;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header-high-scores{
+    text-align: left;
+}
+
+.header-timer{
+    text-align: right;
+
+}
+
+.main{
+    background-color: red;
+    height: 500px;
+    margin: 0;
+    padding: 100px;
+}
+
+.main-questions{
+    text-align: center;
+
+}
+.footer{
+    background-color: green;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
