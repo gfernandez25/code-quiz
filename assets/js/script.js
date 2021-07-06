@@ -1,5 +1,3 @@
-// variable to store initial time
-var timer = 100;
 
 //create variable to target div timer element
 var displayTimer = document.getElementById("display-timer")
@@ -11,7 +9,8 @@ var buttonStart = document.getElementById("button-start-quiz");
 //add event listener to button to start the quiz
 buttonStart.addEventListener("click", function () {
         window.alert("start button clicked") //testing event listener
-        currenTimer = startCountdown(); //did it this way to be able so use clearinterval
+    timer = 100; // variable to store initial time everytime we click the start button
+    currenTimer = startCountdown(); //did it this way to be able so use clearinterval
     }
 )
 
