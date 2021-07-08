@@ -1,4 +1,4 @@
-//<<<<<<< HEAD
+
 function startQuiz() {
     _resetTimer();
     _buildQuestionSlide(0);
