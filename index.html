@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" href="assets/css/style.css"/> <!-- link to css --->
+    <title>Quiz</title>
+</head>
+<body>
+
+
+<!--placeholder to display the questions-->
+<main class="quiz">
+    <header class="quiz-header">
+        <span class="quiz-header-high-scores">View High Scores</span>
+        <span class="quiz-header-timer" id="display-timer">Timer</span>
+    </header>
+
+    <section class="quiz-slide quiz-slide-instructions" id="slide-instructions">
+        <h2 class="quiz-slide-title"> Quiz Challenge</h2>
+        <div class="quiz-slide-content">
+            <p> Try to answer the following questions within the time limit.</p>
+            <p>Keep in mind that incorrect answers will penalize your score/time by ten seconds</p>
+        </div>
+        <button onclick="startQuiz()" class="btn"> Start Quiz</button>
+    </section>
+    <section class="quiz-slide hide quiz-slide-question" id="question-slide"></section>
+    <section class="quiz-slide hide quiz-slide-question" id="player-score-slide">
+        <h2 class="quiz-slide-title"> Your Score</h2>
+        <div class="quiz-slide-content">
+            <input type="text">
+            <button onclick="submitScore()" class="btn">Submit</button>
+        </div>
+    </section>
+    <section class="quiz-slide hide high-score-slide" id="high-score-slide">
+        <h2 class="quiz-slide-title"> View High Score</h2>
+        <div class="quiz-slide-content">
+            <div class="high-score">High Score</div>
+            <button onclick="goToInstructions()" class="btn">Go back</button>
+            <button onclick="clearScores()" class="btn">Clear High Scores</button>
+        </div>
+
+    </section>
+</main>
+
+<div id='hidden-element'></div>
+<ul class="task-list" id="tasks-to-do"></ul>
+
+<script src="assets/js/script.js"></script>
+
+</body>
+</html>
