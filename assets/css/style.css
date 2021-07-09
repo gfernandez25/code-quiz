@@ -67,6 +67,12 @@
     padding: 20px 0;
 }
 
+.answer{
+    text-align: center;
+    background: orange;
+    font-size: 40px;
+    border-top: 2px solid;
+}
 
 
 
