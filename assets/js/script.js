@@ -1,106 +1,123 @@
-//create variable to target div timer element
-var displayTimer = document.getElementById("display-timer")
-//create variable to target div answer element
-var displayAnswer = document.getElementById("answer-display")
+var remainingTime = 0;
+var timer;
 
-//var timer = 10;
-
+_resetTimer();
 
 //-----------------------navigation functions-------------------------------------------
-
-function startQuiz() {
-    _resetTimer();
-    _buildQuestionSlide(0);
-    _startCountdown(); //did it this way to be able so use clearinterval
-}
-
-function submitAnswer(questionIndex, choice, correctAnswer, timer) {
-    _checkQuestionAnswer(choice, correctAnswer, timer);
-
-    if (questionIndex + 1 <= 3) {
-        _buildQuestionSlide(questionIndex + 1);
-    } else {
-        _setActiveSlide("player-score-slide")
-    }
-}
-
-function submitScore() {
-    _setActiveSlide("high-score-slide")
-    console.log("submit score");
-}
-
-function goToInstructions() {
+function goToInstructionsSlide() {
     _setActiveSlide("slide-instructions")
     _resetTimer();
 }
 
-function clearScores() {
-    console.log("score cleared")
+function goToQuestionSlides() {
+    _buildQuestionSlide(0);
+    _startTimer(); //did it this way to be able so use clearinterval
 }
 
+function goToSubmitScoreSlide(questionIndex, choice, correctAnswer) {
+    _checkQuestionAnswer(choice, correctAnswer, "answer-display");
 
-//-----------------------Timer functions-------------------------------------------
-
-//function that will reduce total time remaining by one and display on the html using DOM
-function _countDown() {
-    _displayCount(timer)
-    console.log(timer); //change this to display in page
-    timer--;
-    if (timer === -1) {
-        clearInterval(currenTimer) //use this to stop set interval after 0
+    if (questionIndex + 1 <= 3) {
+        _buildQuestionSlide(questionIndex + 1);
+    } else {
+        // handle last question
+        _stopTimer(timer)
+        _setActiveSlide("submit-score-slide")
+        document.getElementById("answer-display").classList.add("hide");
+        document.getElementById("submit-score-final-score").innerText = remainingTime;
     }
 }
 
-//function that displays the current count on the page by using DOM targeting displaytimer above
-function _displayCount(timer) {
-    displayTimer.innerHTML = timer;
+function goToHighScoreSlide() {
+    _setActiveSlide("high-score-slide")
+    _setHighScore("highScores", {
+        initials: document.getElementById("get-initials").value,
+        score: remainingTime,
+    });
 }
 
-//function that will run every second  and call function that reduce total time remaining, return time remaining
-function _startCountdown() {
-    setInterval(_countDown, 1000);
+function goToHighScoreSlideFromHeader() {
+    _setActiveSlide("high-score-slide");
+    _stopTimer(timer);
+    _resetTimer();
+    _setHighScore("highScores", undefined)
+}
+
+function _setActiveSlide(slideId) {
+    var slideSet = ["slide-instructions", "question-slide", "submit-score-slide", "high-score-slide"];
+    for (var i = 0; i < slideSet.length; i++) {
+        document.getElementById(slideSet[i]).classList.add("hide");
+    }
+    document.getElementById(slideId).classList.remove("hide")
+}
+
+//-----------------------score functions-------------------------------------------
+
+function clearScores() {
+    console.log("score cleared")
+    localStorage.clear();
+    document.getElementById("high-score-list").innerHTML = "";
+}
+
+//-----------------------Timer functions-------------------------------------------
+//function that will run every second  and call function that reduce total remainingTime remaining, return remainingTime remaining
+function _startTimer() {
+    console.log("start timer");
+    timer = setInterval(function () {
+        if (remainingTime <= 0) {
+            _stopTimer(timer)
+
+            // if you reach zero go to score slide
+            _setActiveSlide("submit-score-slide")
+        } else {
+            remainingTime--;
+        }
+
+        document.getElementById("display-timer").innerText = "time: " + remainingTime
+    }, 1000);
+
 }
 
 function _resetTimer() {
-    console.log("start timer")
-    timer = 100;
+    remainingTime = 100;
+    document.getElementById("display-timer").innerText = "time: " + remainingTime
 }
 
-// function to deduct time
-function _penaltyDeduction(timer) {
-    console.log("penalty " + timer)
-    timer = timer - 10;
-    return timer;
-
+function _stopTimer(timer) {
+    clearInterval(timer)
 }
 
+function _penaltyDeduction() {
+    remainingTime -= 10
+    document.getElementById("display-timer").innerText = "time: " + remainingTime
+}
 
-//-----------------------util functions-------------------------------------------
+//-----------------------question functions-------------------------------------------
 //build question based on index
 function _buildQuestionSlide(questionIndex = 0) {
     var questionSet = [
         {
-            question: "Question text 1",
-            choices: ["choice 1", "choice 2", "choice 3", "choice 4"],
+            question: "In the pilot episode, what did Fry do for a living before he accidentally froze himself?",
+            choices: ["Fast food cashier", "Pizza delivery boy", "handy man", "Bowling alley pinsetter" ],
+            correctAnswer: 1,
+        }, {
+            question: "What is Leela's first name",
+            choices: ["Turanga", "Labarbara", "Nichelle", "Umbriel"],
+            correctAnswer: 0,
+        }, {
+            question: "Can you name Zapp Brannigan's assistant (and Amy's boyfriend)?",
+            choices: ["Ken", "Kin", "Kip", "Kif"],
             correctAnswer: 3,
         }, {
-            question: "Question text 2",
-            choices: ["choice 1", "choice 2", "choice 3", "choice 4"],
-            correctAnswer: 3,
-        }, {
-            question: "Question text 3",
-            choices: ["choice 1", "choice 2", "choice 3", "choice 4"],
-            correctAnswer: 3,
-        }, {
-            question: "Question text 4",
-            choices: ["choice 1", "choice 2", "choice 3", "choice 4"],
-            correctAnswer: 3,
+            question: "Why does Bender drink alcohol?",
+            choices: ["To get drunk", "To recharge his fuel cells", "To sober up", "To boost his productivity"],
+            correctAnswer: 1,
         }]
 
     var questionTitle = '<h2 class="quiz-slide-title">' + questionSet[questionIndex].question + '</h2>';
     var choices = '';
     for (var i = 0; i < questionSet[questionIndex].choices.length; i++) {
-        choices += '<button onclick="submitAnswer(' + questionIndex + ',' + i + ',' + questionSet[questionIndex].correctAnswer + ')" class="btn">' + questionSet[questionIndex].choices[i] + '</button>';
+        choices += '<button onclick="goToSubmitScoreSlide(' + questionIndex + ',' + i + ',' + questionSet[questionIndex].correctAnswer + ')" class="btn">' + questionSet[questionIndex].choices[i] + '</button>';
     }
     var questionContent = '<div class="quiz-slide-content">' + choices + '</div>';
     document.getElementById("question-slide").innerHTML = questionTitle + questionContent;
@@ -108,31 +125,56 @@ function _buildQuestionSlide(questionIndex = 0) {
     _setActiveSlide("question-slide")
 }
 
-function _checkQuestionAnswer(choice, correctAnswer, timer) {
-    if (correctAnswer === choice) {
-        console.log("answered correctly")
-        displayAnswer.textContent = "Correct Answer!"
+function _checkQuestionAnswer(choice, correctAnswer, answerMessageContainerID) {
+    var answerContainerId = document.getElementById(answerMessageContainerID)
+    answerContainerId.classList.remove("hide");
+
+    //terniary
+    //condition ? return true : return false
+    answerContainerId.textContent = choice !== correctAnswer ? "Wrong Answer" : "Correct Answer!";
+
+    if (choice !== correctAnswer) {
+        _penaltyDeduction()
+    }
+}
+
+//-------------------------------score functions------------------------
+function _setHighScore(localstorageKey, score) {
+    var highScoreFromSession = localStorage.getItem(localstorageKey);
+
+    // terniary
+    highScoreFromSession = !!highScoreFromSession ? JSON.parse(highScoreFromSession) : [];
+
+    if (!!score) {
+        highScoreFromSession.push(score);
+    }
+
+    localStorage.setItem(localstorageKey, JSON.stringify(highScoreFromSession))
+
+    var listItem = "";
+
+    for (var i = 0; i < highScoreFromSession.length; i++) {
+        listItem +=
+            "<li>" + highScoreFromSession[i].initials + " - " +
+            highScoreFromSession[i].score + "</li>";
+    }
+    document.getElementById("high-score-list").innerHTML = listItem;
+}
+
+
+//-------------------------------local storage functions----------------
+
+function _getLocalStorageByKey(key) {
+    var highScore = localStorage.getItem(key);
+
+    if (!!highScore) {
+        highScore = JSON.parse(highScore)
     } else {
-        console.log("Wrong answer")
-        displayAnswer.textContent = "Wrong Answer"
-        //todo: take away 10 sec from timer    should be an util
-        var currentTimer = _penaltyDeduction(timer)
+        highScore = [];
     }
-    return currentTimer;
-    //todo: show if answer is right or wrong should be an util
+
+    return highScore;
 }
-
-function _setActiveSlide(slideId) {
-    var slideSet = ["slide-instructions", "question-slide", "player-score-slide", "high-score-slide"];
-    for (var i = 0; i < slideSet.length; i++) {
-        document.getElementById(slideSet[i]).classList.add("hide");
-    }
-    document.getElementById(slideId).classList.remove("hide")
-}
-
-
-
-
 
 
 //
@@ -146,7 +188,7 @@ function _setActiveSlide(slideId) {
 // //add event listener to button to start the quiz
 // buttonStart.addEventListener("click", function () {
 //         window.alert("start button clicked") //testing event listener
-//         timer = 100; // variable to store initial time everytime we click the start button
+//         timer = 100; // variable to store initial remainingTime everytime we click the start button
 //         currenTimer = startCountdown(); //did it this way to be able so use clearinterval function since it must receive a variable
 //     }
 // )

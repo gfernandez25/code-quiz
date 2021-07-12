@@ -9,41 +9,38 @@
 </head>
 <body>
 
-
 <!--placeholder to display the questions-->
 <main class="quiz">
     <header class="quiz-header">
-        <span class="quiz-header-high-scores">View High Scores</span>
-        <span class="quiz-header-timer" id="display-timer">Timer</span>
+        <a class="quiz-header-high-scores" onclick="goToHighScoreSlideFromHeader()">view high scores</a>
+        <span class="quiz-header-timer" id="display-timer">time:</span>
     </header>
-
     <section class="quiz-slide quiz-slide-instructions" id="slide-instructions">
-        <h2 class="quiz-slide-title"> Quiz Challenge</h2>
+        <h2 class="quiz-slide-title"> Futurama Quiz Challenge</h2>
         <div class="quiz-slide-content">
-            <p> Try to answer the following questions within the time limit.</p>
-            <p>Keep in mind that incorrect answers will penalize your score/time by ten seconds</p>
+            <p> Try to answer the following Futurama related questions within the remaining time limit.</p>
+            <p>Keep in mind that incorrect answers will penalize your score/remainingTime by ten seconds</p>
         </div>
-        <button onclick="startQuiz()" class="btn"> Start Quiz</button>
+        <button onclick="goToQuestionSlides()" class="btn"> Start Quiz</button>
     </section>
     <section class="quiz-slide hide quiz-slide-question" id="question-slide"></section>
-    <section class="quiz-slide hide quiz-slide-question" id="player-score-slide">
-        <h2 class="quiz-slide-title"> Your Score</h2>
+    <section class="quiz-slide hide quiz-slide-submit-score" id="submit-score-slide">
+        <h2 class="quiz-slide-title"> your score is : <span id="submit-score-final-score"> </span> </h2>
         <div class="quiz-slide-content">
-            <input type="text">
-            <button onclick="submitScore()" class="btn">Submit</button>
+            <input type="text" class="quiz-slide-submit-score-get-initials" id="get-initials">
+            <button onclick="goToHighScoreSlide()" class="btn">Submit</button>
         </div>
     </section>
     <section class="quiz-slide hide high-score-slide" id="high-score-slide">
         <h2 class="quiz-slide-title"> View High Score</h2>
         <div class="quiz-slide-content">
-            <div class="high-score">High Score</div>
-            <button onclick="goToInstructions()" class="btn">Go back</button>
+            <h3 class="high-score">High Scores</h3>
+            <ol class="high-score-slide-list" id="high-score-list"></ol>
+            <button onclick="goToInstructionsSlide()" class="btn">Go back</button>
             <button onclick="clearScores()" class="btn">Clear High Scores</button>
         </div>
     </section>
-    <section class="answer">
-        <h3 id="answer-display"> Answer </h3>
-    </section>
+    <p id="answer-display" class="quiz-answer hide"> Answer </p>
 </main>
 
 <script src="assets/js/script.js"></script>

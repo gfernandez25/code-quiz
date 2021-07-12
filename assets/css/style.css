@@ -15,12 +15,13 @@
     border-radius: 10px;
     cursor: pointer;
     padding: 10px 20px;
+    margin-bottom: 20px;
 }
 
 
 /*quiz*/
 .quiz {
-    background-color: red;
+    /*background-color: red;*/
     min-height: 500px;
     display: flex;
     flex-direction: column;
@@ -31,19 +32,22 @@
 /*quiz header section*/
 .quiz-header {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    background-color: #3a81fc;
+    padding: 20px 30px;
 }
 
 .quiz-header-high-scores,
 .quiz-header-timer {
     font-size: 32px;
+    text-transform: capitalize;
+}
+
+.quiz-header-high-scores {
+    color: rebeccapurple;
 }
 
 /*quiz slide section*/
 .quiz-slide {
-    background: green;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -54,8 +58,10 @@
 .quiz-slide.hide {
     display: none;
 }
+
 .quiz-slide-title {
     font-size: 34px;
+    text-transform: capitalize;
 }
 
 .quiz-slide-content {
@@ -67,12 +73,40 @@
     padding: 20px 0;
 }
 
-.answer{
+.quiz-answer {
+    font-size: 30px;
     text-align: center;
-    background: orange;
-    font-size: 40px;
     border-top: 2px solid;
+    margin-top: 20px;
+    padding: 20px;
+    color: gray;
+    font-style: italic;
 }
+
+.quiz-answer.hide {
+    display: none;
+}
+
+
+.quiz-slide-submit-score-get-initials {
+    margin: 30px;
+    padding: 10px 20px;
+    font-size: 28px;
+}
+
+.high-score-slide-list {
+margin: 30px;
+
+}
+
+.high-score-slide-list li {
+    font-size: 20px;
+    text-align: left;
+    padding: 10px 30px;
+}
+
+
+
 
 
 
